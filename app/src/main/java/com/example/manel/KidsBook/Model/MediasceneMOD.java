@@ -3,7 +3,6 @@ package com.example.manel.KidsBook.Model;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.manel.KidsBook.Entities.Mediascene;
 import com.example.manel.KidsBook.webServiceConf.ServerAdress;
@@ -31,6 +30,38 @@ public class MediasceneMOD {
             //Toast.makeText(context, "dao tab length "+tabMs.length , Toast.LENGTH_LONG).show();
             //Log.e("tablengthid",""+idconte);
             //Log.e("tablength",""+tabMs.length);
+            return tabMs;
+        } catch (Exception ex) {
+            Log.e("Excption dao", ex.toString());
+        }
+        return null;
+    }
+
+    public Mediascene[] listMedsl(int idconte, int idMs) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setConnectTimeout(Utils.getRequestDelay());
+            final String url = ServerAdress.getserverAdr() + "/Mediascene/allMsl/" + idconte + "/" + idMs + "/";
+            Mediascene[] tabMs = restTemplate.getForObject(url, Mediascene[].class);
+            return tabMs;
+        } catch (Exception ex) {
+            Log.e("Excption dao", ex.toString());
+        }
+        return null;
+    }
+
+    public Mediascene[] maxMeds(int idconte) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setConnectTimeout(Utils.getRequestDelay());
+            final String url = ServerAdress.getserverAdr() + "/Mediascene/maxMs/" + idconte + "/";
+            Mediascene[] tabMs = restTemplate.getForObject(url, Mediascene[].class);
             return tabMs;
         } catch (Exception ex) {
             Log.e("Excption dao", ex.toString());

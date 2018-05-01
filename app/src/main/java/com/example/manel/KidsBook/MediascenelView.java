@@ -6,19 +6,21 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.manel.KidsBook.Adapter.MediasceneAdapter;
+import com.example.manel.KidsBook.Adapter.MediascenelAdapter;
 
-public class MediasceneView extends AppCompatActivity {
+public class MediascenelView extends AppCompatActivity {
+    int numpagerecieve;
     private Context context;
     private ViewPager viewPager;
     private ConstraintLayout constraintLayout;
     private int idCnt;
-    private MediasceneAdapter mediasceneAdapter;
-    int numpagerecieve;
+    private int idms;
+    private MediascenelAdapter mediascenelAdapter;
     private ImageView btnNext, btnBack;
     private int currentPage;
     private int lengthms;
@@ -39,7 +41,7 @@ public class MediasceneView extends AppCompatActivity {
                 btnBack.setVisibility(View.VISIBLE);
             }
             currentPage = position;
-            if (position == 1) {
+            if (position == 0) {
                 final int curent = position;
                 //Toast.makeText(context,"id : "+idCnt, Toast.LENGTH_SHORT).show();
                 btnNext.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +50,7 @@ public class MediasceneView extends AppCompatActivity {
                         Intent intent = new Intent(context, QuestionView.class);
                         intent.putExtra("curentpage", "" + curent);
                         intent.putExtra("idConte", "" + idCnt);
-                        intent.putExtra("idMs", "" + mediasceneAdapter.getIdms());
+                        intent.putExtra("idMs", "" + mediascenelAdapter.getIdms());
                         startActivity(intent);
                     }
                 });
@@ -93,12 +95,12 @@ public class MediasceneView extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         idCnt = Integer.parseInt(extras.getString("idConte"));
+        idms = Integer.parseInt(extras.getString("idMs"));
 
-        mediasceneAdapter = new MediasceneAdapter(this,idCnt);
-        viewPager.setAdapter(mediasceneAdapter);
-        lengthms = mediasceneAdapter.getCount();
-
-        //Toast.makeText(context,"length page : "+lengthms, Toast.LENGTH_SHORT).show();
+        mediascenelAdapter = new MediascenelAdapter(this, idCnt, idms);
+        Log.e("lenghtimsl", "" + mediascenelAdapter.getCount() + " idms " + idms);
+        viewPager.setAdapter(mediascenelAdapter);
+        lengthms = mediascenelAdapter.getCount();
 
         viewPager.addOnPageChangeListener(viewListener);
 

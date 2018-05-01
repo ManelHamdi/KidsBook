@@ -15,39 +15,41 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manel.KidsBook.Entities.Mediascene;
-import com.example.manel.KidsBook.Model.ListMediascene;
+import com.example.manel.KidsBook.Model.ListMediascenel;
 import com.example.manel.KidsBook.R;
 
-public class MediasceneAdapter extends PagerAdapter {
+public class MediascenelAdapter extends PagerAdapter {
+
     private Context context;
     private LayoutInflater layoutInflater;
     private int idCnt;
+    private int idMs;
     private int idms;
+    private Mediascene[] listMs;
 
-    public MediasceneAdapter(Context context, int idCnt) {
+    public MediascenelAdapter(Context context, int idCnt, int idMs) {
         this.context = context;
         this.idCnt = idCnt;
+        this.idMs = idMs;
     }
 
-    private  Mediascene[] listMs ;
-
-    public  Mediascene[] getlistMs(){
-        listMs =  new ListMediascene(idCnt,context).doInBackground();
+    public Mediascene[] getlistMs() {
+        listMs = new ListMediascenel(idCnt, idMs, context).doInBackground();
         return listMs;
-   }
+    }
 
     @Override
     public int getCount() {
-        int count=0;
+        int count = 0;
         //Log.e("tablengthidla",""+idCnt);
-        try{
-            count=getlistMs().length;
-        }catch (Exception e){
-            Log.e("erreur in adapter",""+e);
+        try {
+            count = getlistMs().length;
+        } catch (Exception e) {
+            Log.e("erreur in adapter", "" + e);
             Toast.makeText(context, "Something went wrong, Verify your connexion", Toast.LENGTH_LONG).show();
-            Toast.makeText(context, ""+e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }
-        return  count;
+        return count;
     }
 
     @Override
