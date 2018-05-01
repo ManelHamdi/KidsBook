@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Kids Book</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="conte_title">Conte Title</string>
+    <string name="conte_id">Conte id</string>
+</resources>
