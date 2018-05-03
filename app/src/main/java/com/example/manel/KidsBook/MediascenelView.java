@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.manel.KidsBook.Adapter.MediascenelAdapter;
+import com.example.manel.KidsBook.Entities.Question;
+import com.example.manel.KidsBook.Model.ListQuestion;
 
 public class MediascenelView extends AppCompatActivity {
     int numpagerecieve;
     private Context context;
     private ViewPager viewPager;
+    private Question question;
     private ConstraintLayout constraintLayout;
     private int idCnt;
     private int idms;
@@ -24,6 +27,8 @@ public class MediascenelView extends AppCompatActivity {
     private ImageView btnNext, btnBack;
     private int currentPage;
     private int lengthms;
+    private Intent i;
+
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -32,34 +37,20 @@ public class MediascenelView extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-
+            //final int idms = mediasceneAdapter.getIdms();
             if (position == 0) {
                 btnBack.setVisibility(View.GONE);
-            } else if (position == lengthms) {
+            } else if (position == lengthms-1) {
                 btnNext.setVisibility(View.GONE);
             } else {
                 btnBack.setVisibility(View.VISIBLE);
             }
-            currentPage = position;
-            if (position == 0) {
-                final int curent = position;
-                //Toast.makeText(context,"id : "+idCnt, Toast.LENGTH_SHORT).show();
-                btnNext.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, QuestionView.class);
-                        intent.putExtra("curentpage", "" + curent);
-                        intent.putExtra("idConte", "" + idCnt);
-                        intent.putExtra("idMs", "" + mediascenelAdapter.getIdms());
-                        startActivity(intent);
-                    }
-                });
-                btnBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewPager.setCurrentItem(currentPage - 1);
-                    }
-                });
+
+
+            ListQuestion lstqs = new ListQuestion(idCnt, mediascenelAdapter.getIdms(), context);
+            question = lstqs.doInBackground();
+            if (question != null) {
+                currentPage = position;
             }
         }
 
@@ -68,6 +59,7 @@ public class MediascenelView extends AppCompatActivity {
 
         }
     };
+
     private String getedit;
 
     @Override
@@ -76,10 +68,12 @@ public class MediascenelView extends AppCompatActivity {
         setContentView(R.layout.activity_mediascene_view);
         context = getApplicationContext();
 
+        i = new Intent(context, QuestionView.class);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            getedit = bundle.getString("edit");
+            getedit = bundle.getString("reponse");
             String n = bundle.getString("curentpage");
             if (getedit != null) {
                 numpagerecieve = Integer.parseInt(n);
@@ -108,13 +102,17 @@ public class MediascenelView extends AppCompatActivity {
     }
 
     public void MsQs() {
-        if (currentPage == 1) {
+        currentPage -= 1;
+        if (currentPage != 0) {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, QuestionView.class);
-                    intent.putExtra("helloq", "after1");
-                    startActivity(intent);
+                    //Intent i = new Intent(context, QuestionView.class);
+                    i.putExtra("curentpage", "" + currentPage);
+                    i.putExtra("idConte", "" + idCnt);
+                    i.putExtra("idMs", "" + mediascenelAdapter.getIdms());
+                    i.putExtra("helloq", "after1");
+                    startActivity(i);
                 }
             });
             btnBack.setOnClickListener(new View.OnClickListener() {
