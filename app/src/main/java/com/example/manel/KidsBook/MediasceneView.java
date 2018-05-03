@@ -90,7 +90,6 @@ public class MediasceneView extends AppCompatActivity {
                 btnBack.setVisibility(View.VISIBLE);
             }
 
-
             ListQuestion lstqs = new ListQuestion(idCnt, mediasceneAdapter.getIdms(), context);
             question = lstqs.doInBackground();
 
@@ -98,6 +97,7 @@ public class MediasceneView extends AppCompatActivity {
                 if (!question.getTitre().isEmpty()) {
                     Log.e("qqqqq", question.getTitre());
                     Log.e("qqqqq", "" + position);
+                    currentPage = position;
                     btnNext.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -113,7 +113,7 @@ public class MediasceneView extends AppCompatActivity {
                 }
 
             }catch (Exception e){
-                currentPage = position;
+                //currentPage = position;
             }
 
             MsQs();

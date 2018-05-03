@@ -28,6 +28,7 @@ public class MediascenelView extends AppCompatActivity {
     private int currentPage;
     private int lengthms;
     private Intent i;
+    private int selectedpagepos;
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -37,6 +38,8 @@ public class MediascenelView extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
+            selectedpagepos = position;
+            //MsQs();
             //final int idms = mediasceneAdapter.getIdms();
             if (position == 0) {
                 btnBack.setVisibility(View.GONE);
@@ -46,12 +49,34 @@ public class MediascenelView extends AppCompatActivity {
                 btnBack.setVisibility(View.VISIBLE);
             }
 
-
             ListQuestion lstqs = new ListQuestion(idCnt, mediascenelAdapter.getIdms(), context);
             question = lstqs.doInBackground();
-            if (question != null) {
-                currentPage = position;
+
+            try {
+                if (!question.getTitre().isEmpty()) {
+                    Log.e("qqqqq", question.getTitre());
+                    Log.e("qqqqq", "" + position);
+                    currentPage = position;
+                    btnNext.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewPager.setCurrentItem(selectedpagepos + 1);
+                        }
+                    });
+                    btnBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewPager.setCurrentItem(selectedpagepos - 1);
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
+                //currentPage = position;
             }
+
+            MsQs();
+
         }
 
         @Override
@@ -102,13 +127,17 @@ public class MediascenelView extends AppCompatActivity {
     }
 
     public void MsQs() {
-        currentPage -= 1;
-        if (currentPage != 0) {
+        Log.e("curentqqqqb", "" + currentPage);
+        if (currentPage != -2) {
+            currentPage -= 1;
+            Log.e("curentqqqqa", "" + currentPage);
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*viewPager.setCurrentItem(currentPage + 1);
+                    Log.e("qqqqqqq",""+question);*/
                     //Intent i = new Intent(context, QuestionView.class);
-                    i.putExtra("curentpage", "" + currentPage);
+                    i.putExtra("curentpage", "" + selectedpagepos);
                     i.putExtra("idConte", "" + idCnt);
                     i.putExtra("idMs", "" + mediascenelAdapter.getIdms());
                     i.putExtra("helloq", "after1");
@@ -118,20 +147,20 @@ public class MediascenelView extends AppCompatActivity {
             btnBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewPager.setCurrentItem(currentPage - 1);
+                    viewPager.setCurrentItem(selectedpagepos - 1);
                 }
             });
         } else {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewPager.setCurrentItem(currentPage + 1);
+                    viewPager.setCurrentItem(selectedpagepos + 1);
                 }
             });
             btnBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewPager.setCurrentItem(currentPage - 1);
+                    viewPager.setCurrentItem(selectedpagepos - 1);
                 }
             });
         }
