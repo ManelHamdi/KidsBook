@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.manel.KidsBook.Model.ListQuestion;
 
 public class QuestionView extends AppCompatActivity {
     private RadioButton prop1, prop2, prop3;
+    private TextView txtTitre;
     private String curentpage;
     private String idConte;
     private String idMs;
@@ -26,11 +24,13 @@ public class QuestionView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
 
-        prop1 = (RadioButton) findViewById(R.id.prop1);
-        prop2 = (RadioButton) findViewById(R.id.prop2);
-        prop3 = (RadioButton) findViewById(R.id.prop3);
+        prop1 = findViewById(R.id.prop1);
+        prop2 = findViewById(R.id.prop2);
+        prop3 = findViewById(R.id.prop3);
 
-        btnNextq = (ImageView) findViewById(R.id.btnNextq);
+        txtTitre = findViewById(R.id.titreQues);
+
+        btnNextq = findViewById(R.id.btnNextq);
 
         prop1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -66,6 +66,7 @@ public class QuestionView extends AppCompatActivity {
             curentpage = bundle.getString("curentpage");
             idConte = bundle.getString("idConte");
             idMs = bundle.getString("idMs");
+            txtTitre.setText(bundle.getString("titre"));
             Toast.makeText(getApplicationContext(), "recived ms view : " + curentpage + "idCnt " + idConte, Toast.LENGTH_SHORT).show();
         }
     }

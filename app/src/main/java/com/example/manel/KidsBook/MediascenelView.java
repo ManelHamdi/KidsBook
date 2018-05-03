@@ -38,45 +38,16 @@ public class MediascenelView extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            selectedpagepos = position;
-            //MsQs();
-            //final int idms = mediasceneAdapter.getIdms();
+
+            testm(position);
+            /*selectedpagepos = position;
             if (position == 0) {
                 btnBack.setVisibility(View.GONE);
             } else if (position == lengthms-1) {
-                btnNext.setVisibility(View.GONE);
+                //btnNext.setVisibility(View.GONE);
             } else {
                 btnBack.setVisibility(View.VISIBLE);
-            }
-
-            ListQuestion lstqs = new ListQuestion(idCnt, mediascenelAdapter.getIdms(), context);
-            question = lstqs.doInBackground();
-
-            try {
-                if (!question.getTitre().isEmpty()) {
-                    Log.e("qqqqq", question.getTitre());
-                    Log.e("qqqqq", "" + position);
-                    currentPage = position;
-                    btnNext.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            viewPager.setCurrentItem(selectedpagepos + 1);
-                        }
-                    });
-                    btnBack.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            viewPager.setCurrentItem(selectedpagepos - 1);
-                        }
-                    });
-                }
-
-            } catch (Exception e) {
-                //currentPage = position;
-            }
-
-            MsQs();
-
+            }*/
         }
 
         @Override
@@ -164,6 +135,41 @@ public class MediascenelView extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void testm(int position) {
+        ListQuestion lstqs = new ListQuestion(idCnt, mediascenelAdapter.getIdms(), context);
+        question = lstqs.doInBackground();
+
+        try {
+            if (!question.getTitre().isEmpty()) {
+                Log.e("hhhhhh", "hihihi");
+                Log.e("hhhhhh", "hihihi" + mediascenelAdapter.getIdms());
+                btnNext.setVisibility(View.VISIBLE);
+                clickaftertest(mediascenelAdapter.getIdms(), question.getTitre());
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee");
+            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee" + mediascenelAdapter.getIdms());
+            btnNext.setVisibility(View.GONE);
+        }
+    }
+
+    public void clickaftertest(final int idm, String titre) {
+        final int idd = idm;
+        final String titr = titre;
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("curentpage", "" + selectedpagepos);
+                i.putExtra("idConte", "" + idCnt);
+                i.putExtra("idMs", "" + idd);
+                i.putExtra("helloq", "after1");
+                i.putExtra("titre", titr);
+                startActivity(i);
+            }
+        });
     }
 }
 

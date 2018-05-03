@@ -31,6 +31,32 @@ public class MediasceneView extends AppCompatActivity {
     private String getedit;
 
 
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+            testm(position);
+            /*selectedpagepos = position;
+            if (position == 0) {
+                btnBack.setVisibility(View.GONE);
+            } else if (position == lengthms-1) {
+                //btnNext.setVisibility(View.GONE);
+            } else {
+                btnBack.setVisibility(View.VISIBLE);
+            }*/
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +82,7 @@ public class MediasceneView extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
+
         Bundle extras = getIntent().getExtras();
         idCnt = Integer.parseInt(extras.getString("idConte"));
 
@@ -67,90 +94,21 @@ public class MediasceneView extends AppCompatActivity {
 
 
         viewPager.addOnPageChangeListener(viewListener);
-
-        MsQs();
+        //testm(0);
+        //MsQs();
     }
 
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            selectedpagepos = position;
-            //MsQs();
-            //final int idms = mediasceneAdapter.getIdms();
-            if (position == 0) {
-                btnBack.setVisibility(View.GONE);
-            } else if (position == lengthms-1) {
-                btnNext.setVisibility(View.GONE);
-            } else {
-                btnBack.setVisibility(View.VISIBLE);
-            }
-
-            ListQuestion lstqs = new ListQuestion(idCnt, mediasceneAdapter.getIdms(), context);
-            question = lstqs.doInBackground();
-
-            try {
-                if (!question.getTitre().isEmpty()) {
-                    Log.e("qqqqq", question.getTitre());
-                    Log.e("qqqqq", "" + position);
-                    currentPage = position;
-                    btnNext.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            viewPager.setCurrentItem(selectedpagepos + 1);
-                        }
-                    });
-                    btnBack.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            viewPager.setCurrentItem(selectedpagepos - 1);
-                        }
-                    });
-                }
-
-            }catch (Exception e){
-                //currentPage = position;
-            }
-
-            MsQs();
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
-
     public void MsQs() {
-        Log.e("curentqqqqb",""+currentPage);
-        if (currentPage != -2) {
-            currentPage -= 1;
-            Log.e("curentqqqqa",""+currentPage);
-            btnNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*viewPager.setCurrentItem(currentPage + 1);
-                    Log.e("qqqqqqq",""+question);*/
-                    //Intent i = new Intent(context, QuestionView.class);
-                    i.putExtra("curentpage", "" + selectedpagepos);
-                    i.putExtra("idConte", "" + idCnt);
-                    i.putExtra("idMs", "" + mediasceneAdapter.getIdms());
-                    i.putExtra("helloq", "after1");
-                    startActivity(i);
-                }
-            });
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewPager.setCurrentItem(selectedpagepos - 1);
-                }
-            });
-        } else {
+        /*ListQuestion lstqs = new ListQuestion(idCnt, mediasceneAdapter.getIdms(), context);
+        question = lstqs.doInBackground();
+        try {
+            if (!question.getTitre().isEmpty()) {
+                Log.e("hhhhhh","hihihi");
+            }
+        }catch (Exception e){
+            e.fillInStackTrace();
+        }
+
             btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,8 +120,41 @@ public class MediasceneView extends AppCompatActivity {
                 public void onClick(View v) {
                     viewPager.setCurrentItem(selectedpagepos - 1);
                 }
-            });
+            });*/
+    }
+
+    public void testm(int position) {
+        ListQuestion lstqs = new ListQuestion(idCnt, mediasceneAdapter.getIdms(), context);
+        question = lstqs.doInBackground();
+
+        try {
+            if (!question.getTitre().isEmpty()) {
+                Log.e("hhhhhh", "hihihi");
+                Log.e("hhhhhh", "hihihi" + mediasceneAdapter.getIdms());
+                btnNext.setVisibility(View.VISIBLE);
+                clickaftertest(mediasceneAdapter.getIdms(), question.getTitre());
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee");
+            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee" + mediasceneAdapter.getIdms());
+            btnNext.setVisibility(View.GONE);
         }
     }
-}
 
+    public void clickaftertest(final int idm, String titre) {
+        final int idd = idm;
+        final String titr = titre;
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("curentpage", "" + selectedpagepos);
+                i.putExtra("idConte", "" + idCnt);
+                i.putExtra("idMs", "" + idd);
+                i.putExtra("helloq", "after1");
+                i.putExtra("titre", titr);
+                startActivity(i);
+            }
+        });
+    }
+}
