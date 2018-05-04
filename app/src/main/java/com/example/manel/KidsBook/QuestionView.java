@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -26,18 +25,21 @@ public class QuestionView extends AppCompatActivity {
     int s;
     private String reponse = "no reponse";
     private int idQs;
-    private ImageView img;
+    private ImageView img, btnnextq, btnendq;
     private ListReponse listReponse;
     private Context context;
     private Reponse rep;
     private SharedPreferences preferences;
-    private String anser, correcteprop, rrr;
+    private String anser, correcteprop, rrr, fin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
         context = getApplicationContext();
+
+        btnnextq = findViewById(R.id.btnNextq);
+        btnendq = findViewById(R.id.btnEndq);
 
         prop1 = findViewById(R.id.prop1);
         prop2 = findViewById(R.id.prop2);
@@ -74,7 +76,6 @@ public class QuestionView extends AppCompatActivity {
             }
         });
 
-        //button = findViewById(R.id.button);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -82,12 +83,14 @@ public class QuestionView extends AppCompatActivity {
             idConte = bundle.getString("idConte");
             idMs = bundle.getString("idMs");
             idQs = bundle.getInt("idQs");
+            fin = bundle.getString("end");
+            if (fin.equals("fin")) {
+                btnnextq.setVisibility(View.GONE);
+                btnendq.setVisibility(View.VISIBLE);
+            }
             s = bundle.getInt("nbrs");
-            Log.e("anser113", "" + s);
             if (bundle.getString("reponse") != null) {
                 anser = bundle.getString("reponse");
-            } else {
-                //reppp = Collections.singleton("");
             }
             txtTitre.setText(bundle.getString("titre"));
             byte[] imgb = bundle.getByteArray("img");
@@ -105,23 +108,12 @@ public class QuestionView extends AppCompatActivity {
             prop2.setText(rep.getTexteReponse2());
             prop3.setText(rep.getTexteReponse3());
             correcteprop = rep.getCorrecte();
-            Log.e("anser1", anser);
-            Log.e("anser2", rep.getCorrecte());
-
-            if (anser.equals("ui")) {
-                Log.e("anser112", anser);
-                //s += 1;
-            } else {
-                //Log.e("anser113", anser);
-            }
 
             //Toast.makeText(getApplicationContext(), "recived ms view : " + curentpage + "idCnt " + idConte, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void Send(View view) {
-        Log.e("anser3", rep.getCorrecte());
-        Log.e("anser4", reponse);
         if (reponse.equals(rep.getCorrecte())) {
             s += 1;
             rrr = "ui";
@@ -136,10 +128,25 @@ public class QuestionView extends AppCompatActivity {
         Intent intent = new Intent(this, MediascenelView.class);
         intent.putExtra("reponse", "" + rrr);
         intent.putExtra("nbrs", s);
-        Log.e("anser113 to", "" + s);
         intent.putExtra("idConte", idConte);
         intent.putExtra("curentpage", curentpage + 1);
         intent.putExtra("idMs", idMs);
+        startActivity(intent);
+    }
+
+    public void Endq(View view) {
+        if (reponse.equals(rep.getCorrecte())) {
+            s += 1;
+            rrr = "ui";
+        } else {
+            rrr = "nn";
+        }
+        preferences = getSharedPreferences("Scoreresult", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("prop", s);
+        editor.commit();
+
+        Intent intent = new Intent(getApplicationContext(), Score.class);
         startActivity(intent);
     }
 }

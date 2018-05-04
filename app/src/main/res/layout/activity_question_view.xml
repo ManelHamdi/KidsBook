@@ -52,11 +52,11 @@
         android:isScrollContainer="true"
         app:layout_constraintBottom_toTopOf="@+id/btnNextq"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgQues"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <!--<android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
 
         <RadioButton
             android:id="@+id/prop1"
-            android:layout_width="203dp"
+            android:layout_width="357dp"
             android:layout_height="28dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -102,21 +102,23 @@
 
         <RadioButton
             android:id="@+id/prop3"
-            android:layout_width="207dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
+            android:baselineAligned="false"
             android:text="RadioButton3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.329"
+            app:layout_constraintHorizontal_bias="0.777"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.536" />
+            app:layout_constraintVertical_bias="0.288" />
+
         <!--</android.support.constraint.ConstraintLayout>-->
     </RadioGroup>
 
@@ -143,6 +145,26 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="Send"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/next" />
+
+    <ImageView
+        android:id="@+id/btnEndq"
+        android:layout_width="94dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="Endq"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -29,6 +29,7 @@ public class MediasceneView extends AppCompatActivity {
     private int selectedpagepos;
     Intent i;
     private String getedit;
+    String end = "";
 
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
@@ -155,6 +156,7 @@ public class MediasceneView extends AppCompatActivity {
                 i.putExtra("titre", titre);
                 i.putExtra("img", img);
                 i.putExtra("idQs", idqs);
+                i.putExtra("end", end);
                 startActivity(i);
             }
         });

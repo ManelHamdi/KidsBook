@@ -21,14 +21,12 @@ public class MediascenelView extends AppCompatActivity {
     private ViewPager viewPager;
     private Question question;
     private ConstraintLayout constraintLayout;
-    private int idCnt;
-    private int idms;
+    private int idCnt, idms, lengthms, currentPage, selectedpagepos, s;
+    private String end = "";
     private MediascenelAdapter mediascenelAdapter;
     private ImageView btnNext, btnBack, btnNextq, btnLast;
-    private int currentPage;
-    private int lengthms;
+
     private Intent i;
-    private int selectedpagepos, s;
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -38,19 +36,10 @@ public class MediascenelView extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-
-            if (position == lengthms - 1) {
-                btnLast.setVisibility(View.VISIBLE);
-                btnLast.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(), Score.class);
-                        startActivity(intent);
-                    }
-                });
-            }
-
             testm(position);
+            if (position == lengthms - 1) {
+                end = "fin";
+            }
             /*selectedpagepos = position;
             if (position == 0) {
                 btnBack.setVisibility(View.GONE);
@@ -117,16 +106,22 @@ public class MediascenelView extends AppCompatActivity {
 
         try {
             if (!question.getTitre().isEmpty()) {
-                Log.e("hhhhhh", "hihihi");
-                Log.e("hhhhhh", "hihihi" + mediascenelAdapter.getIdms());
                 btnNextq.setVisibility(View.VISIBLE);
                 clickaftertest(mediascenelAdapter.getIdms(), question.getIdQuestion(), question.getTitre(), question.getImage());
             }
         } catch (Exception e) {
             e.fillInStackTrace();
-            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee");
-            Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee" + mediascenelAdapter.getIdms());
             btnNextq.setVisibility(View.GONE);
+            if (position == lengthms - 1) {
+                btnLast.setVisibility(View.VISIBLE);
+                btnLast.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), Score.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
     }
 
@@ -144,6 +139,7 @@ public class MediascenelView extends AppCompatActivity {
                 i.putExtra("titre", titre);
                 i.putExtra("img", img);
                 i.putExtra("idQs", idqs);
+                i.putExtra("end", end);
                 startActivity(i);
             }
         });
