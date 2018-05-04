@@ -2,8 +2,6 @@ package com.example.manel.KidsBook.Model;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.manel.KidsBook.Entities.Mediascene;
 
@@ -21,8 +19,6 @@ public class ListMediascene extends AsyncTask<Void, Void, Mediascene[]> {
         Mediascene[] mediascenes;
         MediasceneMOD mediasceneMOD = new MediasceneMOD(context);
         mediascenes = mediasceneMOD.listMeds(idConte);
-        //Log.e("tablengthidl",""+idConte);
-        //Toast.makeText(context, "do in background length "+mediascenes.length , Toast.LENGTH_LONG).show();
         return mediascenes;
     }
 

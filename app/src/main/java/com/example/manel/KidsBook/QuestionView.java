@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -16,27 +17,28 @@ import android.widget.TextView;
 import com.example.manel.KidsBook.Entities.Reponse;
 import com.example.manel.KidsBook.Model.ListReponse;
 
-public class QuestionView extends AppCompatActivity {
+import java.util.Locale;
+
+public class QuestionView extends AppCompatActivity implements TextToSpeech.OnInitListener {
     private RadioButton prop1, prop2, prop3;
     private TextView txtTitre;
-    private String curentpage;
-    private String idConte;
-    private String idMs;
-    int s;
+    private String curentpage, idMs, idConte, correcteprop, rrr, fin;
     private String reponse = "no reponse";
-    private int idQs;
+    private int idQs, s, count = 0;
     private ImageView img, btnnextq, btnendq;
     private ListReponse listReponse;
     private Context context;
     private Reponse rep;
     private SharedPreferences preferences;
-    private String anser, correcteprop, rrr, fin;
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_view);
         context = getApplicationContext();
+
+        textToSpeech = new TextToSpeech(this, this);
 
         btnnextq = findViewById(R.id.btnNextq);
         btnendq = findViewById(R.id.btnEndq);
@@ -89,10 +91,12 @@ public class QuestionView extends AppCompatActivity {
                 btnendq.setVisibility(View.VISIBLE);
             }
             s = bundle.getInt("nbrs");
-            if (bundle.getString("reponse") != null) {
-                anser = bundle.getString("reponse");
-            }
+            count = bundle.getInt("count");
+
             txtTitre.setText(bundle.getString("titre"));
+
+            textToSpeech.speak(bundle.getString("titre"), TextToSpeech.QUEUE_FLUSH, null);
+
             byte[] imgb = bundle.getByteArray("img");
             Bitmap bitmap = BitmapFactory.decodeByteArray(imgb, 0, imgb.length);
             img.setImageBitmap(bitmap);
@@ -100,17 +104,12 @@ public class QuestionView extends AppCompatActivity {
             listReponse = new ListReponse(context, idQs);
             rep = listReponse.doInBackground();
 
-            if (anser.equals("r")) {
-                anser = rep.getCorrecte();
-            }
-
             prop1.setText(rep.getTexteReponse1());
             prop2.setText(rep.getTexteReponse2());
             prop3.setText(rep.getTexteReponse3());
             correcteprop = rep.getCorrecte();
-
-            //Toast.makeText(getApplicationContext(), "recived ms view : " + curentpage + "idCnt " + idConte, Toast.LENGTH_SHORT).show();
         }
+        speakout();
     }
 
     public void Send(View view) {
@@ -123,11 +122,13 @@ public class QuestionView extends AppCompatActivity {
         preferences = getSharedPreferences("Scoreresult", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("prop", s);
+        editor.putInt("count", count + 1);
         editor.commit();
 
         Intent intent = new Intent(this, MediascenelView.class);
         intent.putExtra("reponse", "" + rrr);
         intent.putExtra("nbrs", s);
+        intent.putExtra("count", count + 1);
         intent.putExtra("idConte", idConte);
         intent.putExtra("curentpage", curentpage + 1);
         intent.putExtra("idMs", idMs);
@@ -144,9 +145,23 @@ public class QuestionView extends AppCompatActivity {
         preferences = getSharedPreferences("Scoreresult", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("prop", s);
+        editor.putInt("count", count + 1);
         editor.commit();
 
         Intent intent = new Intent(getApplicationContext(), Score.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status != TextToSpeech.ERROR) {
+            textToSpeech.setLanguage(Locale.FRANCE);
+            speakout();
+        }
+    }
+
+    private void speakout() {
+        String txt = txtTitre.getText().toString();
+        textToSpeech.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
     }
 }
