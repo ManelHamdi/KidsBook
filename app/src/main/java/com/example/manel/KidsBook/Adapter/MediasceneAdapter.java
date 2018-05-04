@@ -45,7 +45,6 @@ public class MediasceneAdapter extends PagerAdapter implements TextToSpeech.OnIn
     @Override
     public int getCount() {
         int count = 0;
-        //Log.e("tablengthidla",""+idCnt);
         try {
             count = getlistMs().length;
         } catch (Exception e) {

@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.manel.KidsBook.Adapter.MediasceneAdapter;
 import com.example.manel.KidsBook.Entities.Question;
@@ -79,9 +78,9 @@ public class MediasceneView extends AppCompatActivity {
             String n = bundle.getString("curentpage");
             if (getedit != null) {
                 numpagerecieve = Integer.parseInt(n);
-                Toast.makeText(context, "numpagerecieve : " + numpagerecieve, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "numpagerecieve : " + numpagerecieve, Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(context, "recived ms view : " + getedit, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "recived ms view : " + getedit, Toast.LENGTH_SHORT).show();
         }
 
         btnNext = findViewById(R.id.btnNext);
@@ -99,11 +98,8 @@ public class MediasceneView extends AppCompatActivity {
         viewPager.setAdapter(mediasceneAdapter);
         lengthms = mediasceneAdapter.getCount();
 
-        //Toast.makeText(context,"length page : "+lengthms, Toast.LENGTH_SHORT).show();
-
-
         viewPager.addOnPageChangeListener(viewListener);
-        //testm(0);
+
         MsQs();
     }
 

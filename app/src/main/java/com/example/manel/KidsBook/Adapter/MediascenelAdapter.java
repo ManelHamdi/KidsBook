@@ -74,7 +74,6 @@ public class MediascenelAdapter extends PagerAdapter implements TextToSpeech.OnI
         ImageView imgMs = view.findViewById(R.id.imgMs);
 
         txtid.setText(String.valueOf(getlistMs()[position].getIdMediascene()));
-        //txtid.setText(""+1);
         idms = getlistMs()[position].getIdMediascene();
         textMs.setText(getlistMs()[position].getTexte());
         speakout();
@@ -91,7 +90,6 @@ public class MediascenelAdapter extends PagerAdapter implements TextToSpeech.OnI
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((ConstraintLayout) object);
-        //super.destroyItem(container, position, object);
     }
 
     public int getIdms() {
