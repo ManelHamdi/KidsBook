@@ -22,7 +22,7 @@ public class MediasceneView extends AppCompatActivity {
     private int idCnt;
     private MediasceneAdapter mediasceneAdapter;
     int numpagerecieve;
-    private ImageView btnNext, btnBack;
+    private ImageView btnNext, btnBack, btnNextq;
     private int currentPage = -2;
     private int lengthms;
     private Question question;
@@ -78,6 +78,7 @@ public class MediasceneView extends AppCompatActivity {
         }
 
         btnNext = findViewById(R.id.btnNext);
+        btnNextq = findViewById(R.id.btnNextq);
         btnBack = findViewById(R.id.btnBack);
 
         viewPager = findViewById(R.id.viewPager);
@@ -131,28 +132,29 @@ public class MediasceneView extends AppCompatActivity {
             if (!question.getTitre().isEmpty()) {
                 Log.e("hhhhhh", "hihihi");
                 Log.e("hhhhhh", "hihihi" + mediasceneAdapter.getIdms());
-                btnNext.setVisibility(View.VISIBLE);
-                clickaftertest(mediasceneAdapter.getIdms(), question.getTitre());
+                btnNextq.setVisibility(View.VISIBLE);
+                clickaftertest(mediasceneAdapter.getIdms(), question.getIdQuestion(), question.getTitre(), question.getImage());
             }
         } catch (Exception e) {
             e.fillInStackTrace();
             Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee");
             Log.e("hhhhhheeeeeeeeeeee", "hihihieeeeeeeeeeee" + mediasceneAdapter.getIdms());
-            btnNext.setVisibility(View.GONE);
+            btnNextq.setVisibility(View.GONE);
         }
     }
 
-    public void clickaftertest(final int idm, String titre) {
-        final int idd = idm;
-        final String titr = titre;
-        btnNext.setOnClickListener(new View.OnClickListener() {
+    public void clickaftertest(final int idm, final int idqs, final String titre, final byte[] img) {
+        btnNextq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 i.putExtra("curentpage", "" + selectedpagepos);
                 i.putExtra("idConte", "" + idCnt);
-                i.putExtra("idMs", "" + idd);
+                i.putExtra("idMs", "" + idm);
+                i.putExtra("reponse", "r");
                 i.putExtra("helloq", "after1");
-                i.putExtra("titre", titr);
+                i.putExtra("titre", titre);
+                i.putExtra("img", img);
+                i.putExtra("idQs", idqs);
                 startActivity(i);
             }
         });

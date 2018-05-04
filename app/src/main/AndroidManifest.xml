@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".MediasceneView" />
         <activity android:name=".QuestionView" />
-        <activity android:name=".MediascenelView"></activity>
+        <activity android:name=".MediascenelView" />
+        <activity android:name=".Score"></activity>
     </application>
 
 </manifest>
